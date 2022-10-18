@@ -12,12 +12,12 @@ public class AccidentMem {
 
     private HashMap<Integer, Accident> accidents = new HashMap<>();
 
-    private void fill() {
+    public AccidentMem() {
         accidents.put(1, new Accident(1, "Парковка", "Остановка в неполженном месте", "ул.Герцина"));
     }
 
+
     public Collection<Accident> getAll() {
-        fill();
         return accidents.values().stream().toList();
     }
 }
