@@ -20,4 +20,8 @@ public class AccidentMem {
     public Collection<Accident> getAll() {
         return accidents.values().stream().toList();
     }
+
+    public void create(Accident accident) {
+        accidents.put(accident.getId(), accident);
+    }
 }
