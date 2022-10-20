@@ -2,8 +2,10 @@ package ru.job4j.accidents.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.service.AccidentService;
@@ -23,4 +25,17 @@ public class AccidentControl {
         accidents.create(accident);
         return "redirect:/index";
     }
+
+    @GetMapping("/editAccident/{accId}")
+    public String getUpdate(Model model, @PathVariable("accId") int id) {
+        model.addAttribute("accident", accidents.getById(id));
+        return "updateAccident";
+    }
+
+    @PostMapping("/updateAccident")
+    public String update(@ModelAttribute Accident accident) {
+        accidents.update(accident);
+        return "redirect:/index";
+    }
+
 }

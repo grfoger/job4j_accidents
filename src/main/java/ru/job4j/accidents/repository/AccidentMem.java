@@ -10,10 +10,11 @@ import java.util.List;
 @Repository
 public class AccidentMem {
 
-    private HashMap<Integer, Accident> accidents = new HashMap<>();
+    private int count = 0;
+    private final HashMap<Integer, Accident> accidents = new HashMap<>();
 
     public AccidentMem() {
-        accidents.put(1, new Accident(1, "Парковка", "Остановка в неполженном месте", "ул.Герцина"));
+        accidents.put(count++, new Accident(1, "Парковка", "Остановка в неполженном месте", "ул.Герцина"));
     }
 
 
@@ -22,6 +23,14 @@ public class AccidentMem {
     }
 
     public void create(Accident accident) {
+        accidents.put(count++, accident);
+    }
+
+    public void update(Accident accident) {
         accidents.put(accident.getId(), accident);
+    }
+
+    public Accident getById(int id) {
+        return accidents.get(id);
     }
 }
