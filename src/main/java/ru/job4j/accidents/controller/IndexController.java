@@ -25,4 +25,18 @@ public class IndexController {
         model.addAttribute("accidents", service.getAll());
         return "index";
     }
+
+    @GetMapping("/")
+    public String indexBlank(Model model) {
+        model.addAttribute("user", "Arhip Myravsky");
+        model.addAttribute("accidents", service.getAll());
+        return "index";
+    }
+
+    @GetMapping("/accidents")
+    public String accidents(Model model) {
+        model.addAttribute("user", "Arhip Myravsky");
+        model.addAttribute("accidents", service.getAll());
+        return "index";
+    }
 }

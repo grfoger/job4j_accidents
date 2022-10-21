@@ -14,7 +14,7 @@ public class AccidentMem {
     private final HashMap<Integer, Accident> accidents = new HashMap<>();
 
     public AccidentMem() {
-        accidents.put(count++, new Accident(1, "Парковка", "Остановка в неполженном месте", "ул.Герцина"));
+        accidents.put(count++, new Accident(0, "Парковка", "Остановка в неполженном месте", "ул.Герцина"));
     }
 
 
