@@ -33,6 +33,12 @@
                 <form th:action="@{/updateAccident}" method="POST" enctype="multipart/form-data" th:object="${accident}">
                     <input type="hidden" name="id" th:field="*{id}"/>
                     <div class="form-group">
+                        <label for="type.id">Тип</label>
+                        <select class="form-control" id="type.id"  name="type.id">
+                            <option th:each="type: ${types}"
+                                    th:text="${type.name}"
+                                    th:value="${type.id}"></option>
+                        </select>
                         <label for="name">Имя</label>
                         <input type="text" class="form-control" name="name" id="name" th:field="*{name}">
                         <label for="text">Текст</label>
