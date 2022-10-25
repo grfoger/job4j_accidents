@@ -39,6 +39,12 @@
                                     th:text="${type.name}"
                                     th:value="${type.id}"></option>
                         </select>
+                        <label for="rIds">Статья</label>
+                        <select class="form-control" id="rIds" name="rIds" multiple>
+                            <option th:each="rule: ${rules}"
+                                    th:text="${rule.name}"
+                                    th:value="${rule.id}"></option>
+                        </select>
                         <label for="name">Имя</label>
                         <input type="text" class="form-control" name="name" id="name">
                         <label for="text">Текст</label>

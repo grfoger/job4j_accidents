@@ -23,7 +23,6 @@ public class IndexController {
     public String index(Model model) {
         model.addAttribute("user", "Arhip Myravsky");
         model.addAttribute("accidents", service.getAll());
-        System.out.println(service.getAll());
         return "index";
     }
 
