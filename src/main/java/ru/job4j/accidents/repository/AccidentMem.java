@@ -7,20 +7,21 @@ import ru.job4j.accidents.model.AccidentType;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class AccidentMem {
 
-    private int count = 0;
-    private int countType = 0;
+    private AtomicInteger count = new AtomicInteger(0);
+    private AtomicInteger countType = new AtomicInteger(0);
     private final HashMap<Integer, Accident> accidents = new HashMap<>();
     private final HashMap<Integer, AccidentType> accidentsTypes = new HashMap<>();
 
     public AccidentMem() {
-        accidentsTypes.put(countType++, new AccidentType(0, "Парковка"));
-        accidentsTypes.put(countType++, new AccidentType(1, "Столкновение"));
-        accidentsTypes.put(countType++, new AccidentType(2, "Прочее"));
-        accidents.put(count++, new Accident(0, accidentsTypes.get(0), "Остановка", "Остановка в неполженном месте", "ул.Герцина"));
+        accidentsTypes.put(countType.getAndIncrement(), new AccidentType(0, "Парковка"));
+        accidentsTypes.put(countType.getAndIncrement(), new AccidentType(1, "Столкновение"));
+        accidentsTypes.put(countType.getAndIncrement(), new AccidentType(2, "Прочее"));
+        accidents.put(count.getAndIncrement(), new Accident(0, accidentsTypes.get(0), "Остановка", "Остановка в неполженном месте", "ул.Герцина"));
     }
 
 
@@ -29,8 +30,8 @@ public class AccidentMem {
     }
 
     public void create(Accident accident) {
-        accident.setId(count);
-        accidents.put(count++, accident);
+        accident.setId(count.get());
+        accidents.put(count.getAndIncrement(), accident);
     }
 
     public void update(Accident accident) {
