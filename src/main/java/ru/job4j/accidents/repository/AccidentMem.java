@@ -15,13 +15,6 @@ public class AccidentMem {
 
     private final HashMap<Integer, Accident> accidents = new HashMap<>();
 
-
-    public AccidentMem(AccidentTypeMem accidentTypes, RuleMem rules) {
-        accidents.put(count.getAndIncrement(), new Accident(0, accidentTypes.getTypeById(0), Set.of(rules.getRuleById(0)),
-                "Остановка", "Остановка в неполженном месте", "ул.Герцина"));
-    }
-
-
     public Collection<Accident> getAll() {
         return accidents.values().stream().toList();
     }
