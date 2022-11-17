@@ -6,37 +6,48 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
+import ru.job4j.accidents.model.Rule;
 
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Repository
 @AllArgsConstructor
 public class AccidentJdbc {
     private final JdbcTemplate jdbc;
+    private final AccidentTypeJdbc typeJdbc;
+    private final RuleJdbc ruleJdbc;
+
+
 
     public Collection<Accident> getAll() {
-
         return jdbc.query("select * from accident",
                 (rs, rowNum) -> {
                     return new Accident(
                             rs.getInt("id"),
-                            null,
-                            null,
+                            typeJdbc.getTypeById(rs.getInt("type_id")),
+                            getRulesById(rs.getInt("id")),
                             rs.getString("name"),
                             rs.getString("text"),
                             rs.getString("address")
                     );
                 });
-        /**
+    }
 
-         collection.forEach(accident -> {
-
-        });
-         **/
+    private Set<Rule> getRulesById(int id) {
+        Set<Rule> rules = new HashSet<>();
+        jdbc.query("select * from accident_rule where accident_id=?",
+                (rs, rowNum) -> {
+                    return rs.getInt("rule_id");
+                }, id)
+                .forEach(num -> rules.add(ruleJdbc.getRuleById(num)));
+        return rules;
     }
 
 
@@ -62,30 +73,18 @@ public class AccidentJdbc {
         return accident;
     }
 
-    public void update(Accident accident) {
-
-    }
-
     public Accident getById(int id) {
-        return jdbc.queryForObject("select * from accident where id = ?", Accident.class, id);
+        return jdbc.queryForObject("select * from accident where id=?",
+                (rs, rowNum) -> {
+                    return new Accident(
+                            rs.getInt("id"),
+                            typeJdbc.getTypeById(rs.getInt("type_id")),
+                            getRulesById(rs.getInt("id")),
+                            rs.getString("name"),
+                            rs.getString("text"),
+                            rs.getString("address")
+                    );
+                }, id);
     }
 
-    /**
-    public Accident save(Accident accident) {
-        jdbc.update("insert into accident (name) values (?)",
-                accident.getName());
-        return accident;
-    }
-
-    public List<Accident> getAll() {
-        return jdbc.query("select id, name from accident",
-                (rs, row) -> {
-                    Accident accident = new Accident();
-                    accident.setId(rs.getInt("id"));
-                    accident.setName(rs.getString("name"));
-                    return accident;
-                });
-    }
-
-     */
 }

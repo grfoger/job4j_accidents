@@ -1,10 +1,12 @@
 package ru.job4j.accidents.repositoryjdbc;
 
+import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.util.Assert;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.repository.AccidentTypeMem;
 import ru.job4j.accidents.repository.RuleMem;
@@ -63,14 +65,19 @@ public class JdbcTest {
 
     @Test
     public void createAndGetTest() {
-        AccidentTypeMem typeMem = new AccidentTypeMem();
-        RuleMem ruleMem = new RuleMem();
-        cleanAndFill();
-        AccidentJdbc accidentJdbc = new AccidentJdbc(jdbc);
-        Accident accident = new Accident(0, typeMem.getTypeById(1),
-                Set.of(ruleMem.getRuleById(2), ruleMem.getRuleById(1)),
+        AccidentTypeJdbc type = new AccidentTypeJdbc(jdbc);
+        RuleJdbc rule = new RuleJdbc(jdbc);
+        AccidentJdbc accidentJdbc = new AccidentJdbc(jdbc, type, rule);
+        Accident accident = new Accident(0, type.getTypeById(1),
+                Set.of(rule.getRuleById(2), rule.getRuleById(1)),
                 "name", "text", "address");
         accidentJdbc.create(accident);
-        System.out.println((List) accidentJdbc.getAll());
+        System.out.println(((List) accidentJdbc.getAll()).get(1));
+    }
+
+    @Test
+    public void getRuleTest() {
+        RuleJdbc ruleJdbc = new RuleJdbc(jdbc);
+        Assert.isTrue("Статья1".equals(ruleJdbc.getRuleById(1).getName()));
     }
 }
