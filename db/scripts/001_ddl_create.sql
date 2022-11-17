@@ -1,14 +1,14 @@
-CREATE TABLE type (
+CREATE TABLE if not exists type (
                           id serial primary key,
                           name varchar(255)
 );
 
-CREATE TABLE rule (
+CREATE TABLE if not exists rule (
                       id serial primary key,
                       name varchar(255)
 );
 
-CREATE TABLE accident (
+CREATE TABLE if not exists accident (
                         id serial primary key,
                         type_id int references type(id),
                         name varchar(255),
@@ -16,7 +16,7 @@ CREATE TABLE accident (
                         address varchar(255)
 );
 
-CREATE TABLE accident_rule (
+CREATE TABLE if not exists accident_rule (
                                accident_id int references accident(id),
                                rule_id int references rule(id)
 );
