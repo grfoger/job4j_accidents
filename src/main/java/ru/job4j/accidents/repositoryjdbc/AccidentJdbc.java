@@ -55,7 +55,6 @@ public class AccidentJdbc {
         KeyHolder kh = new GeneratedKeyHolder();
         String request = "insert into accident (type_id, name, text, address)"
                 + " VALUES (?, ?, ?, ?)";
-        int gk;
         jdbc.update(con -> {
             PreparedStatement ps = con.prepareStatement(request, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, accident.getType().getId());
@@ -87,4 +86,29 @@ public class AccidentJdbc {
                 }, id);
     }
 
+    public Accident update(Accident accident) {
+        String request = "update accident set"
+                + " type_id = ?,"
+                + " name = ?,"
+                + " text = ?,"
+                + " address = ?"
+                + " where id = ?";
+        jdbc.update(con -> {
+            PreparedStatement ps = con.prepareStatement(request, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, accident.getType().getId());
+            ps.setString(2, accident.getName());
+            ps.setString(3, accident.getText());
+            ps.setString(4, accident.getAddress());
+            ps.setInt(5, accident.getId());
+            return ps;
+        });
+        accident.getRules().forEach(rule -> {
+            jdbc.update("delete from accident_rule where accident_id = ?;"
+                    + "insert into accident_rule (accident_id, rule_id) VALUES (?, ?)",
+                    accident.getId(),
+                    accident.getId(),
+                    rule.getId());
+        });
+        return accident;
+    }
 }

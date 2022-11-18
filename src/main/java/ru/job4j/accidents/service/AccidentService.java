@@ -1,5 +1,6 @@
 package ru.job4j.accidents.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
@@ -7,21 +8,20 @@ import ru.job4j.accidents.model.Rule;
 import ru.job4j.accidents.repository.AccidentMem;
 import ru.job4j.accidents.repository.AccidentTypeMem;
 import ru.job4j.accidents.repository.RuleMem;
+import ru.job4j.accidents.repositoryjdbc.AccidentJdbc;
+import ru.job4j.accidents.repositoryjdbc.AccidentTypeJdbc;
+import ru.job4j.accidents.repositoryjdbc.RuleJdbc;
 
 import java.util.Collection;
 
 @Service
+@AllArgsConstructor
 public class AccidentService {
 
-    private final AccidentMem store;
-    private final AccidentTypeMem typeStore;
-    private final RuleMem ruleStore;
+    private final AccidentJdbc store;
+    private final AccidentTypeJdbc typeStore;
+    private final RuleJdbc ruleStore;
 
-    public AccidentService(AccidentMem store, AccidentTypeMem typeStore, RuleMem ruleStore) {
-        this.store = store;
-        this.typeStore = typeStore;
-        this.ruleStore = ruleStore;
-    }
 
     public Collection<Accident> getAll() {
         return store.getAll();
