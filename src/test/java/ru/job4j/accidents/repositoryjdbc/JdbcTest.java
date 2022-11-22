@@ -56,10 +56,10 @@ public class JdbcTest {
 
     @BeforeEach
     private void cleanAndFill() {
-        jdbc.update("drop table accident_rule");
-        jdbc.update("drop table accident");
-        jdbc.update("drop table rule");
-        jdbc.update("drop table type");
+        jdbc.update("drop table if exists accident_rule");
+        jdbc.update("drop table if exists accident");
+        jdbc.update("drop table if exists rule");
+        jdbc.update("drop table if exists type");
         jdbc.update(readFile(CREATE));
         jdbc.update(readFile(INSERT));
     }
