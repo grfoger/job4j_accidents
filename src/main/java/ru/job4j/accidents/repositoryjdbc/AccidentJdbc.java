@@ -63,7 +63,7 @@ public class AccidentJdbc {
             ps.setString(4, accident.getAddress());
             return ps;
             }, kh);
-        accident.setId(kh.getKey().intValue());
+        accident.setId((Integer) kh.getKeys().get("id"));
         accident.getRules().forEach(rule -> {
             jdbc.update("insert into accident_rule (accident_id, rule_id) VALUES (?, ?)",
                     accident.getId(),
@@ -102,10 +102,10 @@ public class AccidentJdbc {
             ps.setInt(5, accident.getId());
             return ps;
         });
+        jdbc.update("delete from accident_rule where accident_id = ?",
+                accident.getId());
         accident.getRules().forEach(rule -> {
-            jdbc.update("delete from accident_rule where accident_id = ?;"
-                    + "insert into accident_rule (accident_id, rule_id) VALUES (?, ?)",
-                    accident.getId(),
+           jdbc.update("insert into accident_rule (accident_id, rule_id) VALUES (?, ?)",
                     accident.getId(),
                     rule.getId());
         });

@@ -26,7 +26,6 @@ public class AccidentControl {
         if (ruleIds != null) {
             ruleIds.forEach(x -> accident.getRules().add(service.getRuleById(x)));
         }
-        System.out.println(accident);
         service.create(accident);
         return "redirect:/index";
     }
