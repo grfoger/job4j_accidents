@@ -50,11 +50,12 @@ public class JdbcTest {
             result = Files.readString(Paths.get(path));
         } catch (IOException e) {
             e.printStackTrace();
-        } return result;
+        }
+        return result;
     }
 
     @BeforeEach
-    private void cleanAndFill(){
+    private void cleanAndFill() {
         jdbc.update("drop table accident_rule");
         jdbc.update("drop table accident");
         jdbc.update("drop table rule");
