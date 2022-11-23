@@ -22,8 +22,6 @@ import java.util.Set;
 public class JdbcTest {
 
     public final JdbcTemplate jdbc;
-    private static final String CREATE = "db/scripts/001_ddl_create.sql";
-    private static final String INSERT = "db/scripts/002_ddl_insert.sql";
 
     public JdbcTest() {
         this.jdbc = new JdbcTemplate(ds(
@@ -42,26 +40,6 @@ public class JdbcTest {
         ds.setUsername(username);
         ds.setPassword(password);
         return ds;
-    }
-
-    public String readFile(String path) {
-        String result = null;
-        try {
-            result = Files.readString(Paths.get(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    @BeforeEach
-    private void cleanAndFill() {
-        jdbc.update("drop table if exists accident_rule");
-        jdbc.update("drop table if exists accident");
-        jdbc.update("drop table if exists rule");
-        jdbc.update("drop table if exists type");
-        jdbc.update(readFile(CREATE));
-        jdbc.update(readFile(INSERT));
     }
 
     @Test
