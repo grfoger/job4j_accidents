@@ -1,4 +1,4 @@
-CREATE TABLE if not exists type (
+CREATE TABLE if not exists types (
                           id serial primary key,
                           name varchar(255)
 );
@@ -10,7 +10,7 @@ CREATE TABLE if not exists rule (
 
 CREATE TABLE if not exists accident (
                         id serial primary key,
-                        type_id int references type(id),
+                        type_id int references types(id),
                         name varchar(255),
                         text varchar(2000),
                         address varchar(255)

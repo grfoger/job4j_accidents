@@ -3,9 +3,8 @@ package ru.job4j.accidents.repositoryjdbc;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.boot.test.context.SpringBootTest;
-
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.Assert;
 import ru.job4j.accidents.config.JdbcConfig;
 import ru.job4j.accidents.model.Accident;
@@ -15,8 +14,10 @@ import java.util.Set;
 
 @SpringBootTest(classes = JdbcConfig.class)
 public class JdbcTest {
-@Autowired
-    public final JdbcTemplate jdbc;
+
+    @Autowired
+    public JdbcTemplate jdbc;
+
 
     @Test
     public void createAndGetTest() {

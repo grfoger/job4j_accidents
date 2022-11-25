@@ -15,7 +15,7 @@ public class AccidentTypeJdbc {
     private final JdbcTemplate jdbc;
 
     public Collection<AccidentType> getTypes() {
-        return jdbc.query("select * from type",
+        return jdbc.query("select * from types",
                 (rs, rowNum) -> {
                     return new AccidentType(
                             rs.getInt("id"),
@@ -25,7 +25,7 @@ public class AccidentTypeJdbc {
     }
 
     public AccidentType getTypeById(int id) {
-        return jdbc.queryForObject("select * from type where id=?",
+        return jdbc.queryForObject("select * from types where id=?",
                 (rs, rowNum) -> {
                     return new AccidentType(
                             rs.getInt("id"),

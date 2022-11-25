@@ -1,4 +1,4 @@
-insert into type (name) values ('Парковка'), ('Столкновение'), ('Наезд');
+insert into types (name) values ('Парковка'), ('Столкновение'), ('Наезд');
 
 insert into rule (name) values ('Статья1'), ('Статья2'), ('Статья3');
 
