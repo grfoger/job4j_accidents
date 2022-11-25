@@ -6,13 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.Assert;
-import ru.job4j.accidents.config.JdbcConfig;
 import ru.job4j.accidents.model.Accident;
 
 import java.util.List;
 import java.util.Set;
 
-@SpringBootTest(classes = JdbcConfig.class)
+@SpringBootTest
 public class JdbcTest {
 
     @Autowired
