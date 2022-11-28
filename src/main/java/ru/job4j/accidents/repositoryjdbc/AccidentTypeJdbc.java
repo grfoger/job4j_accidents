@@ -11,8 +11,8 @@ import java.util.Collection;
 @Repository
 @AllArgsConstructor
 public class AccidentTypeJdbc {
-    private static final String GETALL = "SELECT * FROM types";
-    private static final String GETBYID = "SELECT * FROM types WHERE id=?";
+    private static final String GET_ALL = "SELECT * FROM types";
+    private static final String GET_BY_ID = "SELECT * FROM types WHERE id=?";
     private final JdbcTemplate jdbc;
 
     private RowMapper<AccidentType> getRowMapper() {
@@ -25,10 +25,10 @@ public class AccidentTypeJdbc {
     }
 
     public Collection<AccidentType> getTypes() {
-        return jdbc.query(GETALL, getRowMapper());
+        return jdbc.query(GET_ALL, getRowMapper());
     }
 
     public AccidentType getTypeById(int id) {
-        return jdbc.queryForObject(GETBYID, getRowMapper(), id);
+        return jdbc.queryForObject(GET_BY_ID, getRowMapper(), id);
     }
 }

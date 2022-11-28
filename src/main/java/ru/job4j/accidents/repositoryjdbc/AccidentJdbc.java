@@ -22,19 +22,26 @@ import java.util.Set;
 @AllArgsConstructor
 public class AccidentJdbc {
 
-    private static final String GETALL = "SELECT * FROM accident";
-    private static final String RULESBYID = "SELECT * FROM accident_rule WHERE accident_id=?";
-    private static final String CREATE = "INSERT INTO accident (type_id, name, text, address)"
-            + " VALUES (?, ?, ?, ?)";
-    private static final String INSERTRULES = "INSERT INTO accident_rule (accident_id, rule_id) VALUES (?, ?)";
-    private static final String DELETERULES = "DELETE FROM accident_rule WHERE accident_id = ?";
-    private static final String GETBYID = "SELECT * FROM accident WHERE id=?";
-    private static final String UPDATE = "UPDATE accident SET"
-            + " type_id = ?,"
-            + " name = ?,"
-            + " text = ?,"
-            + " address = ?"
-            + " WHERE id = ?";
+    private static final String GET_ALL = "SELECT * FROM accident";
+    private static final String RULES_BY_ID = "SELECT * FROM accident_rule WHERE accident_id=?";
+    private static final String CREATE = """
+        INSERT INTO accident (type_id, name, text, address) 
+        VALUES (?, ?, ?, ?)
+        """;
+    private static final String INSERT_RULES = """
+        INSERT INTO accident_rule (accident_id, rule_id) 
+        VALUES (?, ?)
+        """;
+    private static final String DELETE_RULES = "DELETE FROM accident_rule WHERE accident_id = ?";
+    private static final String GET_BY_ID = "SELECT * FROM accident WHERE id=?";
+    private static final String UPDATE = """
+            UPDATE accident SET
+            type_id = ?,
+            name = ?,
+            text = ?,
+            address = ?
+            WHERE id = ?
+            """;
 
     private final JdbcTemplate jdbc;
     private final AccidentTypeJdbc typeJdbc;
@@ -54,12 +61,12 @@ public class AccidentJdbc {
     }
 
     public Collection<Accident> getAll() {
-        return jdbc.query(GETALL, getRowMapper());
+        return jdbc.query(GET_ALL, getRowMapper());
     }
 
     private Set<Rule> getRulesById(int id) {
         Set<Rule> rules = new HashSet<>();
-        jdbc.query(RULESBYID,
+        jdbc.query(RULES_BY_ID,
                 (rs, rowNum) -> {
                     return rs.getInt("rule_id");
                 }, id)
@@ -80,7 +87,7 @@ public class AccidentJdbc {
             }, kh);
         accident.setId((Integer) Objects.requireNonNull(kh.getKeys()).get("id"));
         accident.getRules().forEach(rule -> {
-            jdbc.update(INSERTRULES,
+            jdbc.update(INSERT_RULES,
                     accident.getId(),
                     rule.getId());
         });
@@ -88,7 +95,7 @@ public class AccidentJdbc {
     }
 
     public Accident getById(int id) {
-        return jdbc.queryForObject(GETBYID, getRowMapper(), id);
+        return jdbc.queryForObject(GET_BY_ID, getRowMapper(), id);
     }
 
     public Accident update(Accident accident) {
@@ -101,10 +108,10 @@ public class AccidentJdbc {
             ps.setInt(5, accident.getId());
             return ps;
         });
-        jdbc.update(DELETERULES,
+        jdbc.update(DELETE_RULES,
                 accident.getId());
         accident.getRules().forEach(rule -> {
-           jdbc.update(INSERTRULES,
+           jdbc.update(INSERT_RULES,
                     accident.getId(),
                     rule.getId());
         });
