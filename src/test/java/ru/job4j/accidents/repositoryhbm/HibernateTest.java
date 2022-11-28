@@ -21,7 +21,14 @@ public class HibernateTest {
                 "name", "text", "address");
                 Integer zero = 0;
                 Accident after = accidentHibernate.create(accident);
+
                 System.out.println(after);
         Assert.isTrue(!zero.equals(after.getId()));
+    }
+
+    @Test
+    public void getAll() {
+        AccidentHibernate accidentHibernate = new AccidentHibernate(sf);
+        System.out.println(accidentHibernate.getAll());
     }
 }

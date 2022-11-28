@@ -22,11 +22,10 @@ public class HbmConfig {
 
     @Bean
     public LocalSessionFactoryBean sessionFactory(@Value("${hibernate.dialect}") String dialect,
-                                                  @Value("${pathToScan}") String pathScan,
                                                   DataSource ds) {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(ds);
-        sessionFactory.setPackagesToScan(pathScan);
+        sessionFactory.setPackagesToScan("ru.job4j.accidents.model");
         Properties cfg = new Properties();
         cfg.setProperty("hibernate.dialect", dialect);
         sessionFactory.setHibernateProperties(cfg);

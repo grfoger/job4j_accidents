@@ -23,7 +23,7 @@ public class Accident {
     @ManyToOne
     private AccidentType type;
     @ManyToMany
-    private Set<Rule> rules = new HashSet<>();
+    private Set<Rule> rule = new HashSet<>();
     private String name;
     private String text;
     private String address;

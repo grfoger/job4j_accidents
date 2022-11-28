@@ -8,6 +8,9 @@ import ru.job4j.accidents.model.Rule;
 import ru.job4j.accidents.repository.AccidentMem;
 import ru.job4j.accidents.repository.AccidentTypeMem;
 import ru.job4j.accidents.repository.RuleMem;
+import ru.job4j.accidents.repositoryhbm.AccidentHibernate;
+import ru.job4j.accidents.repositoryhbm.AccidentTypeHibernate;
+import ru.job4j.accidents.repositoryhbm.RuleHibernate;
 import ru.job4j.accidents.repositoryjdbc.AccidentJdbc;
 import ru.job4j.accidents.repositoryjdbc.AccidentTypeJdbc;
 import ru.job4j.accidents.repositoryjdbc.RuleJdbc;
@@ -18,9 +21,9 @@ import java.util.Collection;
 @AllArgsConstructor
 public class AccidentService {
 
-    private final AccidentJdbc store;
-    private final AccidentTypeJdbc typeStore;
-    private final RuleJdbc ruleStore;
+    private final AccidentHibernate store;
+    private final AccidentTypeHibernate typeStore;
+    private final RuleHibernate ruleStore;
 
 
     public Collection<Accident> getAll() {
