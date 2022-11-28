@@ -20,7 +20,7 @@ public class HibernateTest {
                 null,
                 "name", "text", "address");
                 Integer zero = 0;
-                Accident after = accidentHibernate.save(accident);
+                Accident after = accidentHibernate.create(accident);
                 System.out.println(after);
         Assert.isTrue(!zero.equals(after.getId()));
     }
