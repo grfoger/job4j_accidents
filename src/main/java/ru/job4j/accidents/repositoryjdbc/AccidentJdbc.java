@@ -86,7 +86,7 @@ public class AccidentJdbc {
             return ps;
             }, kh);
         accident.setId((Integer) Objects.requireNonNull(kh.getKeys()).get("id"));
-        accident.getRule().forEach(rule -> {
+        accident.getRules().forEach(rule -> {
             jdbc.update(INSERT_RULES,
                     accident.getId(),
                     rule.getId());
@@ -110,7 +110,7 @@ public class AccidentJdbc {
         });
         jdbc.update(DELETE_RULES,
                 accident.getId());
-        accident.getRule().forEach(rule -> {
+        accident.getRules().forEach(rule -> {
            jdbc.update(INSERT_RULES,
                     accident.getId(),
                     rule.getId());

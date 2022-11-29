@@ -23,7 +23,10 @@ public class Accident {
     @ManyToOne
     private AccidentType type;
     @ManyToMany
-    private Set<Rule> rule = new HashSet<>();
+    @JoinTable(name = "accident_rule",
+                joinColumns = {@JoinColumn(name = "accident_id")},
+                inverseJoinColumns = {@JoinColumn(name = "rule_id")})
+    private Set<Rule> rules = new HashSet<>();
     private String name;
     private String text;
     private String address;

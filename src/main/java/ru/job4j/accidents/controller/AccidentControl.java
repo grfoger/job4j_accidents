@@ -24,7 +24,7 @@ public class AccidentControl {
     public String save(@ModelAttribute Accident accident, @RequestParam(value = "rIds", required = false) Set<Integer> ruleIds) {
         accident.setType(service.getTypeById(accident.getType().getId()));
         if (ruleIds != null) {
-            ruleIds.forEach(x -> accident.getRule().add(service.getRuleById(x)));
+            ruleIds.forEach(x -> accident.getRules().add(service.getRuleById(x)));
         }
         service.create(accident);
         return "redirect:/index";
@@ -42,7 +42,7 @@ public class AccidentControl {
     public String update(@ModelAttribute Accident accident, @RequestParam(value = "rIds", required = false) Set<Integer> ruleIds) {
         accident.setType(service.getTypeById(accident.getType().getId()));
         if (ruleIds != null) {
-            ruleIds.forEach(x -> accident.getRule().add(service.getRuleById(x)));
+            ruleIds.forEach(x -> accident.getRules().add(service.getRuleById(x)));
         }
         service.update(accident);
         return "redirect:/index";

@@ -11,10 +11,7 @@ import ru.job4j.accidents.model.Rule;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 
 @Repository
@@ -25,7 +22,10 @@ public class AccidentHibernate {
     private <T> T tx(final Function<Session, T> command) {
         T result = null;
         try (Session session = sf.openSession()) {
+            session.beginTransaction();
             result = command.apply(session);
+            session.getTransaction().commit();
+            session.close();
         }
         return result;
     }
@@ -37,7 +37,11 @@ public class AccidentHibernate {
 
     public Collection<Accident> getAll() {
         return tx(session -> session
-                .createQuery("from Accident", Accident.class)
+                .createQuery("""
+                select distinct a from Accident a
+                left join fetch a.rules
+                join fetch a.type
+                """, Accident.class)
                 .list());
     }
 
