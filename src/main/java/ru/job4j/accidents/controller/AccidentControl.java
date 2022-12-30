@@ -1,6 +1,7 @@
 package ru.job4j.accidents.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ public class AccidentControl {
 
     @GetMapping("/createAccident")
     public String viewCreateAccident(Model model) {
+        model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         model.addAttribute("types", service.getTypes());
         model.addAttribute("rules", service.getRules());
         return "createAccident";
@@ -32,6 +34,7 @@ public class AccidentControl {
 
     @GetMapping("/editAccident")
     public String getUpdate(Model model, @RequestParam("id") int id) {
+        model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         model.addAttribute("accident", service.getById(id));
         model.addAttribute("types", service.getTypes());
         model.addAttribute("rules", service.getRules());
